@@ -16,12 +16,14 @@ if [ -f ${build}/.preferred_otp_version ]; then
 fi
 ver=${OTP_VERSION:=${DEFAULT_OTP_VERSION}}
 case $STACK in
-  cedar-14)
-    tarball="runtimes/${ver}_cedar-14.tgz"
-    ;;
-  *)
-    tarball="${ver}.tgz"
-    ;;
+    cedar-14)
+        tarball="runtimes/${ver}_cedar-14.tgz"
+        strip=""
+        ;;
+    *)
+        tarball="${ver}.tgz"
+        strip="--strip-components=2"
+        ;;
 esac
 OTP_TARBALL_URL="https://s3.amazonaws.com/heroku-buildpack-erlang/${tarball}"
 ERLROOT=${build}/otp
@@ -39,11 +41,17 @@ echo "-----> Using Erlang/$ver"
     cd ${cache}
     echo "-------> Fetching Erlang/$ver"
     curl -sO ${OTP_TARBALL_URL} || exit 1
+
+    file ${tarball} | grep -ql gzip
+    if [ $? -ne 0 ]; then3
+        echo "-------> Failed fetching tarball, exiting."
+        exit 1
+    fi
 )
 
 echo "-------> Unpacking Erlang/OTP $ver"
 mkdir -p ${ERLROOT}
-tar zxf ${cache}/${tarball} -C ${ERLROOT}
+tar zxf ${cache}/${tarball} -C ${ERLROOT} ${strip}
 echo "-------> Installing Erlang/OTP $ver"
 ln -s ${ERLROOT} /app/otp
 ${ERLROOT}/Install -minimal /app/otp
