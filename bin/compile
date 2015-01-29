@@ -27,7 +27,7 @@ case $STACK in
         strip="--strip-components=2"
         ;;
 esac
-OTP_TARBALL_URL="https://s3.amazonaws.com/heroku-buildpack-erlang/${location}/${tarball}"
+OTP_TARBALL_URL="https://s3.amazonaws.com/heroku-buildpack-erlang/${location}${tarball}"
 ERLROOT=${build}/otp
 PROFILE=${HOME}/.profile.d
 
