@@ -43,7 +43,7 @@ echo "-----> Using Erlang/$ver"
     curl -sO ${OTP_TARBALL_URL} || exit 1
 
     file ${tarball} | grep -ql gzip
-    if [ $? -ne 0 ]; then3
+    if [ $? -ne 0 ]; then
         echo "-------> Failed fetching tarball, exiting."
         exit 1
     fi
