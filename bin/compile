@@ -40,7 +40,7 @@ echo "-----> Using Erlang/$ver"
     rm -rf ${cache}/* # be sure not to build up cruft
     cd ${cache}
     echo "-------> Fetching Erlang/$ver"
-    curlout=$(curl -O ${OTP_TARBALL_URL})
+    curlout=$(curl -sSO ${OTP_TARBALL_URL})
     if [ $? -ne 0 ]; then
         echo "curl failed:"
         echo $curlout
@@ -51,9 +51,10 @@ echo "-----> Using Erlang/$ver"
 
     file ${tarball} | grep -ql gzip
     if [ $? -ne 0 ]; then
-        echo "-------> Failed fetching tarball, exiting."
-        exit 1
+        echo "-------> Failed: tarball missing."
+        exit 3
     fi
+    echo "test"
 )
 
 echo "-------> Unpacking Erlang/OTP $ver"
