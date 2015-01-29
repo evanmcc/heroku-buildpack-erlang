@@ -17,13 +17,13 @@ fi
 ver=${OTP_VERSION:=${DEFAULT_OTP_VERSION}}
 case $STACK in
   cedar-14)
-    tarball="${ver}_cedar-14.tgz"
+    tarball="runtimes/${ver}_cedar-14.tgz"
     ;;
   *)
     tarball="${ver}.tgz"
     ;;
 esac
-OTP_TARBALL_URL="https://s3.amazonaws.com/heroku-buildpack-erlang/runtimes/${tarball}"
+OTP_TARBALL_URL="https://s3.amazonaws.com/heroku-buildpack-erlang/${tarball}"
 ERLROOT=${build}/otp
 PROFILE=${HOME}/.profile.d
 
